@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <Header></Header>
+    <!-- 路由组件应该出现的地方 -->
+    <router-view></router-view>
     <Footer></Footer>
   </div>
 </template>
