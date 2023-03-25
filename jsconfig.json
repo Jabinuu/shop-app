@@ -1,4 +1,5 @@
 {
+  // 配置路径src/的别名@/
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -15,5 +16,10 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  // node_moudules和dist文件夹不能用@提示路径
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
 }
