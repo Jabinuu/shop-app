@@ -1,9 +1,9 @@
 <template>
-  <div>我是首页</div>
+  <div>我是注册页面</div>
 </template>
 <script>
 export default {
-  name: "indexHome",
+  name: "comRegister",
   data() {
     return {};
   },

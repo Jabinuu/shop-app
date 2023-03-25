@@ -1,9 +1,9 @@
 <template>
-  <div>我是注册页面</div>
+  <div>我是搜索页面</div>
 </template>
 <script>
 export default {
-  name: "indexRegister",
+  name: "comSearch",
   data() {
     return {};
   },
