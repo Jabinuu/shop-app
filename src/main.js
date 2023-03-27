@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
-Vue.config.productionTip = false
-
+import HomeTypeNav from '@/pages/Home/HomeTypeNav'
+Vue.config.productionTip = false;
+// 将商品分类三级联动组件注册为全局组件，以至于任何组件都无须再注册
+Vue.component('HomeTypeNav', HomeTypeNav);
 new Vue({
   // render、template、el这三个DOM选项要一起看
   // render渲染函数里的形参h函数（即createElement()）负责创建一个VNode节点，

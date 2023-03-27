@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-  name: "comRegister",
+  name: "IndexRegister",
   data() {
     return {};
   },

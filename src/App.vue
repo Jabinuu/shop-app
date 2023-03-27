@@ -9,10 +9,14 @@
 
 <script>
 // 引入组件
-import Header from "./components/Header/comHeader";
-import Footer from "@/components/Footer/comFooter";
+import Header from "./components/Header/IndexHeader";
+import Footer from "@/components/Footer/IndexFooter";
 export default {
   name: "App",
+  data() {
+    return {};
+  },
+  props: {},
   // 注册组件
   components: {
     Header,

@@ -27,7 +27,7 @@
     <div class="bottom">
       <h1 class="logoArea">
         <router-link
-          to="/home"
+          :to="{ path: '/home' }"
           class="logo"
           title="尚品汇"
           href="###"
@@ -42,6 +42,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="searchWord"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -58,13 +59,29 @@
 
 <script>
 export default {
+  name: "indexHeader",
+  data() {
+    return {
+      searchWord: "",
+    };
+  },
   methods: {
     goSearch() {
-      /* 由于不允许连续跳转同一个路由从而报错，为了消除这个错误信息，有以下办法
-         1. 为push返回的Promise对象添加rejected的回调函数(每次调用push都要写)
-         2. 重写在router/index.js中的VueRouter原型的push函数（一劳永逸的）
-      */
-      this.$router.push("/search");
+      // this.$router.push( `/search/${this.searchWord}?searchWord=${this.searchWord.toUpperCase()}`// );
+      // 纯字符串路径写法，可以但是麻烦。
+      // 一般采用对象传参，当路由中有占位符时，要用到命名路由，以实现动态路由
+      this.$router.push({
+        path: "/search",
+        name: "searchRouter",
+        params: {
+          // 虽然设置了params可传可不传，但当传了空串''时，还是会出现url缺失的现象，这时候加一个条件判断
+          // 如果为''则传一个undefined
+          searchWord: this.searchWord || undefined,
+        },
+        query: {
+          searchWord: this.searchWord,
+        },
+      });
     },
   },
 };
