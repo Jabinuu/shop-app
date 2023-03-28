@@ -1,13 +1,13 @@
 // 配置路由‘器’的地方
 import Vue from 'vue';   // 注意大小写
 import VueRouter from 'vue-router';
-// 使用插件
+// 安装插件,添加全局功能(调用了插件暴露的install方法)
 Vue.use(VueRouter);
 // 引入路由组件
 import Home from '@/pages/Home/HomeIndex'
-import Login from '@/pages/Login/IndexLogin'
-import Register from '@/pages/Register/IndexRegister'
-import Search from '@/pages/Search/IndexSearch'
+import Login from '@/pages/Login/LoginIndex'
+import Register from '@/pages/Register/RegisterIndex'
+import Search from '@/pages/Search/SearchIndex'
 export default new VueRouter({
   // 配置路由，并对外暴露
   routes: [

@@ -9,8 +9,8 @@
 
 <script>
 // 引入组件
-import Header from "./components/Header/IndexHeader";
-import Footer from "@/components/Footer/IndexFooter";
+import Header from "./components/Header/HeaderIndex";
+import Footer from "@/components/Footer/FooterIndex";
 export default {
   name: "App",
   data() {
