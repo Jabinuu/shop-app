@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import home from '@/store/home.js'   // 引入小仓库
 import search from '@/store/search.js'
-// 对于插件必须要安装
+// 对于插件必须要安装，才能用它来创建实例
 Vue.use(Vuex);
 
 export default new Vuex.Store({

@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-  name: "IndexLogin",
+  name: "LoginIndex",
   data() {
     return {};
   },

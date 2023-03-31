@@ -19,7 +19,7 @@ import HomeLike from "@/pages/Home/HomeLike";
 import HomeFloor from "@/pages/Home/HomeFloor";
 import HomeBrand from "@/pages/Home/HomeBrand";
 export default {
-  name: "IndexHome",
+  name: "HomeIndex",
   data() {
     return {};
   },

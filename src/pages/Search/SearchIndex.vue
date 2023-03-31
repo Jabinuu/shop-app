@@ -1,14 +1,15 @@
 <template>
   <div>
-    <p>{{ "params参数为-----" + $route.params.searchWord }}</p>
-    <p>{{ "query参数为-----" + $route.query.searchWord }}</p>
+    <TypeNav></TypeNav>
   </div>
 </template>
 <script>
 export default {
   name: "IndexSearch",
   data() {
-    return {};
+    return {
+      isShow: false,
+    };
   },
   props: ["searchWord", "keyword"],
   methods: {},
