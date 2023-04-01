@@ -59,7 +59,7 @@
 
 <script>
 export default {
-  name: "indexHeader",
+  name: "HeaderIndex",
   data() {
     return {
       searchWord: "",
@@ -71,16 +71,15 @@ export default {
       // 纯字符串路径写法，可以但是麻烦。
       // 一般采用对象传参，当路由中有占位符时，要用到命名路由，以实现动态路由
       this.$router.push({
-        path: "/search",
+        /* 如果提供的是path，那么params会被忽略，只能通过自己手写带参数的路径 或者 用name来进行路由匹配（推荐） */
+        // path: `/search/${this.searchWord}`,
         name: "searchRouter",
         params: {
           // 虽然设置了params可传可不传，但当传了空串''时，还是会出现url缺失的现象，这时候加一个条件判断
           // 如果为''则传一个undefined
           searchWord: this.searchWord || undefined,
         },
-        query: {
-          searchWord: this.searchWord,
-        },
+        query: this.$route.query,
       });
     },
   },

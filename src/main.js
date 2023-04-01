@@ -2,9 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
+import '@/mock/mockServe'     // 引入 让这个js文件执行一次
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
 import TypeNav from '@/components/TypeNav'
 // 将商品分类三级联动组件注册为全局组件，以至于任何组件都无须再注册
 Vue.component('TypeNav', TypeNav);
+Vue.use(ElementUI)
 new Vue({
   // render、template、el这三个DOM选项要一起看
   // render渲染函数里的形参h函数（即createElement()）负责创建一个VNode，

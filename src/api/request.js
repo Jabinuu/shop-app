@@ -4,7 +4,7 @@ import nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 const requests = axios.create({
-  baseURL: '/api',
+  baseURL: '/api',    // 基础路径，当使用这个axios实例发送请求时，他的路径参数就不需要加/api了，直接写/api后面的即可
   timeout: 5000    // 请求超时的时间,到达这个时间还没有响应 那就是请求失败
 })
 

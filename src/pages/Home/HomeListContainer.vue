@@ -4,18 +4,12 @@
       <div class="sortList clearfix">
         <div class="center">
           <!--banner轮播-->
-          <div class="swiper-container" id="mySwiper">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img src="./images/banner1.jpg" />
-              </div>
-            </div>
-            <!-- 如果需要分页器 -->
-            <div class="swiper-pagination"></div>
-
-            <!-- 如果需要导航按钮 -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+          <div class="block">
+            <el-carousel trigger="click" height="454px">
+              <el-carousel-item v-for="item in bannerList" :key="item.id">
+                <img :src="item.imgUrl" />
+              </el-carousel-item>
+            </el-carousel>
           </div>
         </div>
         <div class="right">
@@ -92,14 +86,27 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "ListContainer",
+  name: "HomeListContainer",
+
   data() {
     return {};
   },
-  methods: {},
+
+  computed: {
+    ...mapState({
+      bannerList(state) {
+        return state.home.bannerList;
+      },
+    }),
+  },
+
   created() {},
-  mounted() {},
+
+  mounted() {
+    this.$store.dispatch("getBannerList");
+  },
 };
 </script>
 <style lang="less" scoped>

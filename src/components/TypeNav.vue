@@ -103,23 +103,21 @@ export default {
     };
   },
 
-  created() {},
-
-  // 组件挂载DOM节点(Vue接管此DOM节点)(渲染)完毕,可以向服务器发送请求
-  mounted() {
-    // 通知Vuex发请求,获取数据,存储于仓库中
-    this.$store.dispatch("categoryList");
-    this.setIsShow();
-  },
-
   computed: {
-    // mapState返回的是一个对象，computed也只是接收一个对象，使用对象展开运算符将此对象混入到外部对象中（ES9之后...展开运算符支持展开对象）
+    // mapState() 返回的是一个对象，computed也只是接收一个对象，使用对象展开运算符将此对象混入到外部对象中（ES9之后...展开运算符支持展开对象）
     ...mapState({
       // 函数名是小仓库中的数据名; 当使用这个计算属性的时候,这个计算属性函数会自动调用一次,且传入的形参为大仓库对象
       categoryList(state) {
         return state.home.categoryList.slice(0, 15);
       },
     }),
+  },
+
+  created() {},
+
+  // 组件挂载DOM节点(Vue接管此DOM节点)(渲染)完毕,可以向服务器发送请求
+  mounted() {
+    this.setIsShow();
   },
 
   methods: {
@@ -138,7 +136,7 @@ export default {
 
     leavCategory() {
       this.curCategoryIndex = -1;
-      if (this.$route.path === "/search") {
+      if (this.$route.name === "searchRouter") {
         this.isShow = false;
       }
     },
@@ -156,15 +154,18 @@ export default {
         } else {
           query.category3Id = category3id;
         }
+        const params = { searchWord: this.$route.params.searchWord };
+
         this.$router.push({
-          path: "/search",
+          name: "searchRouter",
           query,
+          params,
         });
       }
     },
 
     setIsShow() {
-      if (this.$route.path === "/search") {
+      if (this.$route.name === "searchRouter") {
         this.isShow = false;
       }
     },

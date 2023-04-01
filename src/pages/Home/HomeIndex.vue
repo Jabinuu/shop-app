@@ -6,8 +6,12 @@
     <HomeRecommend></HomeRecommend>
     <HomeRank></HomeRank>
     <HomeLike></HomeLike>
-    <HomeFloor></HomeFloor>
-    <HomeFloor></HomeFloor>
+    <!-- v-for还有一个隐藏的用途：只有当获取到异步的遍历数组时才进行渲染，这样就会避免因异步操作的数组还没有获取到，产生空值的情况 -->
+    <HomeFloor
+      :list="item"
+      v-for="item in floorList"
+      :key="item.id"
+    ></HomeFloor>
     <HomeBrand></HomeBrand>
   </div>
 </template>
@@ -18,11 +22,10 @@ import HomeRank from "@/pages/Home/HomeRank";
 import HomeLike from "@/pages/Home/HomeLike";
 import HomeFloor from "@/pages/Home/HomeFloor";
 import HomeBrand from "@/pages/Home/HomeBrand";
+import { mapState } from "vuex";
 export default {
   name: "HomeIndex",
-  data() {
-    return {};
-  },
+
   components: {
     HomeListContainer,
     HomeRecommend,
@@ -31,9 +34,24 @@ export default {
     HomeFloor,
     HomeBrand,
   },
-  methods: {},
+
+  data() {
+    return {};
+  },
+
+  computed: {
+    ...mapState({
+      floorList(state) {
+        return state.home.floorList;
+      },
+    }),
+  },
+
   created() {},
-  mounted() {},
+  mounted() {
+    this.$store.dispatch("getFloorList");
+  },
+  methods: {},
 };
 </script>
 <style lang="less" scoped>
