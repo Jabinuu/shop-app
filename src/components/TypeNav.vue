@@ -3,7 +3,7 @@
     <!-- 商品分类导航 -->
     <div class="type-nav">
       <div class="container">
-        <div @mouseleave="leavCategory" @mouseenter="isShow = true">
+        <div @mouseleave="leaveCategory" @mouseenter="isShow = true">
           <h2 class="all">全部商品分类</h2>
           <!-- 过渡动画 -->
           <transition name="sort">
@@ -76,14 +76,14 @@
           </transition>
         </div>
         <nav class="nav">
-          <a href="###">服装城</a>
-          <a href="###">美妆馆</a>
-          <a href="###">尚品汇超市</a>
-          <a href="###">全球购</a>
-          <a href="###">闪购</a>
-          <a href="###">团购</a>
-          <a href="###">有趣</a>
-          <a href="###">秒杀</a>
+          <a href="javascript:;">服装城</a>
+          <a href="javascript:;">美妆馆</a>
+          <a href="javascript:;">尚品汇超市</a>
+          <a href="javascript:;">全球购</a>
+          <a href="javascript:;">闪购</a>
+          <a href="javascript:;">团购</a>
+          <a href="javascript:;">有趣</a>
+          <a href="javascript:;">秒杀</a>
         </nav>
       </div>
     </div>
@@ -113,12 +113,12 @@ export default {
     }),
   },
 
-  created() {},
-
-  // 组件挂载DOM节点(Vue接管此DOM节点)(渲染)完毕,可以向服务器发送请求
-  mounted() {
+  created() {
     this.setIsShow();
   },
+
+  // 组件挂载DOM节点(Vue接管此DOM节点)(渲染)完毕,可以向服务器发送请求
+  mounted() {},
 
   methods: {
     /* mouseenter事件的频率过高，那么频繁触发回调会产生昂贵的计算开销，甚至发生卡顿，所以要做一下节流优化 */
@@ -134,11 +134,9 @@ export default {
       this.curCategoryIndex = index;
     }, 50),
 
-    leavCategory() {
+    leaveCategory() {
       this.curCategoryIndex = -1;
-      if (this.$route.name === "searchRouter") {
-        this.isShow = false;
-      }
+      this.setIsShow();
     },
 
     goSearch(event) {
@@ -154,7 +152,7 @@ export default {
         } else {
           query.category3Id = category3id;
         }
-        const params = { searchWord: this.$route.params.searchWord };
+        const params = { keyword: this.$route.params.searchWord };
 
         this.$router.push({
           name: "searchRouter",
@@ -165,7 +163,7 @@ export default {
     },
 
     setIsShow() {
-      if (this.$route.name === "searchRouter") {
+      if (this.$route.path !== "/home") {
         this.isShow = false;
       }
     },

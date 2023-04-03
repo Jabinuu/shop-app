@@ -105,7 +105,7 @@
 </template>
 <script>
 export default {
-  name: "indexFooter",
+  name: "FooterIndex",
   components: {},
 };
 </script>
