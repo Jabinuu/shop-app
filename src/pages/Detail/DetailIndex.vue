@@ -7,25 +7,25 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span>手机、数码、通讯</span>
-        <span>手机</span>
-        <span>Apple苹果</span>
-        <span>iphone 6S系类</span>
+        <span>{{ categoryView.category1Name }}</span>
+        <span>{{ categoryView.category2Name }}</span>
+        <span>{{ categoryView.category3Name }}</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <DetailZoom />
+          <!-- 把所有图片信息都传过去，比只传图片路径要好，实现父子组件操作解耦 -->
+          <DetailZoom :imgList="skuInfoTemp.skuImageList" />
           <!-- 小图列表 -->
-          <DetailImgList />
+          <DetailImgList :imgList="skuInfoTemp.skuImageList" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
             <h3 class="InfoName">
-              Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机
+              {{ skuInfoTemp.skuName }}
             </h3>
             <p class="news">
               推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返
@@ -37,7 +37,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>5299</em>
+                  <em>{{ skuInfoTemp.price }}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -76,39 +76,44 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="item in spuSaleAttrList" :key="item.id">
+                <dt class="title">
+                  {{ `选择${item.saleAttrName}` }}
+                </dt>
+                <dd
+                  v-for="item2 in item.spuSaleAttrValueList"
+                  :key="item2.id"
+                  changepirce="0"
+                  @click="setChecked(item.spuSaleAttrValueList, item2.id)"
+                  :class="{ active: item2.isChecked == 1 }"
+                >
+                  {{ item2.saleAttrValueName }}
+                </dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model="skuNum"
+                  @change="onChangeSkuNum"
+                />
+                <a
+                  href="javascript:;"
+                  class="plus"
+                  @click="skuNum = skuNum > 98 ? 99 : skuNum + 1"
+                  >+</a
+                >
+                <a
+                  href="javascript:;"
+                  class="mins"
+                  @click="skuNum = skuNum > 1 ? skuNum - 1 : 1"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addShopCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -349,7 +354,7 @@
 <script>
 import DetailImgList from "@/pages/Detail/DetailImgList";
 import DetailZoom from "@/pages/Detail/DetailZoom";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DetailIndex",
@@ -359,25 +364,76 @@ export default {
     DetailZoom,
   },
 
+  props: ["skuid"],
+
   data() {
-    return {};
+    return {
+      skuNum: 1,
+      skuInfoTemp: {},
+    };
   },
 
   computed: {
-    ...mapState({
-      goodsDetail(state) {
-        return state.detail.goodsDetail;
-      },
-    }),
+    ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
   },
 
-  watch: {},
+  watch: {
+    skuInfo(val) {
+      this.skuInfoTemp = val;
+    },
+  },
 
   mounted() {
     this.$store.dispatch("getGoodsDetail", this.$route.params.skuid);
   },
 
-  methods: {},
+  methods: {
+    setChecked(arr, id) {
+      arr.forEach((elem) => {
+        if (elem.id === id) {
+          elem.isChecked = 1;
+        } else {
+          elem.isChecked = 0;
+        }
+      });
+    },
+
+    onChangeSkuNum(e) {
+      /*表单验证，       
+      表单输入的是字符串，但字符串分为可数字化和不可数字化
+      1.用户输入带有字符 ：将字符串与数字相乘，结果是NaN来判断输入是否带有字符,如果有字符则设为1
+      2.输入负数或0
+      3.输入小数   ：整数化即可
+       */
+      let value = e.target.value;
+      if (isNaN(value * 1) || value < 1) {
+        this.skuNum = 1;
+      } else {
+        this.skuNum = parseInt(value);
+      }
+      this.skuNum = this.skuNum > 99 ? 99 : this.skuNum;
+    },
+
+    async addShopCart() {
+      // 因为要解包promise的值，所以用async
+      // 你当然不希望因为promise的拒绝信息而在terminal爆红，所以出现预期之内的报错信息，要使用catch主动捕捉。
+      // 检查是否添加成功，请求成功则下一步进行路由跳转；请求失败则通知用户
+      try {
+        await this.$store.dispatch("addShopCart", {
+          skuid: this.skuid,
+          skuNum: this.skuNum,
+        });
+        sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
+        // 然后再进行路由跳转...路由跳转不要传对象类型的参数，第一次可以正常传，但一刷新就没了。
+        this.$router.push({
+          name: "addcartsuccess",
+          query: { skuNum: this.skuNum },
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
 };
 </script>
 

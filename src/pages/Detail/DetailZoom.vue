@@ -1,17 +1,59 @@
 <template>
-  <div class="spec-preview">
-    <img src="./images/s1.png" />
-    <div class="event"></div>
+  <div class="spec-preview" ref="father">
+    <img :src="imgUrl" />
+    <div class="event" @mousemove="handler"></div>
     <div class="big">
-      <img src="./images/s1.png" />
+      <img :src="imgUrl" ref="big" />
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "DetailZoom",
+
+  props: {
+    imgList: {
+      // 设置初始值，以防空数据时，报undefined的错误，，，直接设置[{}]会报错不支持这种写法，这时需要用到函数返回这个值了
+      default: () => [{}],
+    },
+  },
+
+  data() {
+    return {
+      imgUrl: "",
+    };
+  },
+
+  watch: {
+    imgList(val) {
+      this.imgUrl = val[0].imgUrl;
+    },
+  },
+  mounted() {
+    this.$bus.$on("switchImg", (url) => {
+      this.imgUrl = url;
+    });
+  },
+
+  methods: {
+    // 放大镜效果
+    handler(e) {
+      const mask = this.$refs.mask;
+      const big = this.$refs.big;
+      let left = e.offsetX - parseInt(mask.offsetWidth / 2);
+      let top = e.offsetY - parseInt(mask.offsetHeight / 2);
+      if (left < 0) left = 0;
+      if (left > mask.offsetWidth) left = mask.offsetWidth;
+      if (top < 0) top = 0;
+      if (top > mask.offsetHeight) top = mask.offsetHeight;
+      mask.style.left = left + "px";
+      mask.style.top = top + "px";
+      big.style.left = -left * 2 + "px";
+      big.style.top = -top * 2 + "px";
+    },
+  },
 };
 </script>
 

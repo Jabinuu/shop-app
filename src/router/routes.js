@@ -3,7 +3,8 @@ import Login from '@/pages/Login/LoginIndex'
 import Register from '@/pages/Register/RegisterIndex'
 import Search from '@/pages/Search/SearchIndex'
 import Detail from '@/pages/Detail/DetailIndex'
-
+import ShopCartSuccess from '@/pages/ShopCart/ShopCartSuccess'
+import ShopCartIndex from '@/pages/ShopCart/ShopCartIndex.vue'
 export default [
   // 注意路由的路径不是 os的文件路径！不要用./
   {
@@ -39,6 +40,20 @@ export default [
     path: '/detail/:skuid?',
     name: 'detailRouter',
     component: Detail,
+    props: ($route) => ({ skuid: $route.params.skuid }),
+    meta: { showFooter: true }
+  },
+
+  {
+    path: '/addcartsuccess',
+    name: 'addcartsuccess',
+    component: ShopCartSuccess,
+    meta: { showFooter: true }
+  },
+
+  {
+    path: '/shopcart',
+    component: ShopCartIndex,
     meta: { showFooter: true }
   },
 

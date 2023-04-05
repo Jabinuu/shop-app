@@ -26,4 +26,3 @@ new Vue({
   }
 }).$mount('#app')   // $mount()作用是把这个Vue实例手动挂载到index.html（单页面程序的主页）的根节点
 // “虚拟 DOM”是我们对 由 Vue 组件树建立起来的整个 VNode 树的称呼。 
-console.log(Vue.options);

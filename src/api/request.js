@@ -10,8 +10,13 @@ const requests = axios.create({
 
 // 设置请求拦截器 => 在每一个请求发送出去之前,会执行一些我们想要的动作
 // 两个参数分别为成功回调和失败回调
+// config是请求的配置信息，可以设置请求头字段等
 requests.interceptors.request.use((config) => {
   nprogress.start();
+  // 如果请求路径中不能携带参数，那就用请求头来携带参数。比如添加购物车时求情url只有name和num参数，
+  // 但是服务器需要用户id才能知道添加到谁的购物车，这时候url中无法再添加多余的参数，只好在请求头headers中添加了。
+  // userTempId这个请求头信息要与后端同步
+  config.headers.userTempId = localStorage.getItem('uuid_token')
   return config;
 })
 

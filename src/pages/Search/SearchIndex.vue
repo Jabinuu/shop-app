@@ -65,7 +65,7 @@
             <ul class="yui3-g">
               <li v-for="item in goodsList" :key="item.id" class="yui3-u-1-5">
                 <div class="list-wrap">
-                  <div class="p-img" @click="goDetail">
+                  <div class="p-img" @click="goDetail(item.id)">
                     <a href="javascript:void(0);"
                       ><img :src="item.defaultImg"
                     /></a>
@@ -172,7 +172,6 @@ export default {
   beforeMount() {},
 
   mounted() {
-    console.log(this);
     this.getSearchResult(); //仅执行一次
   },
 
@@ -247,8 +246,8 @@ export default {
       this.getSearchResult();
     },
 
-    goDetail() {
-      this.$router.push({ name: "detailRouter", params: { skuid: "111" } });
+    goDetail(id) {
+      this.$router.push({ name: "detailRouter", params: { skuid: id } });
     },
   },
 };
