@@ -430,7 +430,7 @@ export default {
           query: { skuNum: this.skuNum },
         });
       } catch (error) {
-        alert(error.message);
+        this.$message.error(error.message);
       }
     },
   },

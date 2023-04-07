@@ -49,6 +49,7 @@ export default {
 
   created() {},
   mounted() {
+    // 派发action，获取floor组件的数据
     this.$store.dispatch("getFloorList");
   },
   methods: {},

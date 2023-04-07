@@ -89,7 +89,7 @@
           <i class="summoney">{{ sumPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -160,7 +160,7 @@ export default {
         });
         this.getShoppcartList();
       } catch (error) {
-        alert(error);
+        this.$message.error(error);
       }
     },
 
@@ -169,7 +169,7 @@ export default {
         await this.$store.dispatch("deleteCartList", skuId);
         this.getShoppcartList();
       } catch (e) {
-        alert(e.message);
+        this.$message.error(e.message);
       }
     },
 
@@ -179,7 +179,7 @@ export default {
         await this.$store.dispatch("updateChecked", { skuId, checked });
         this.getShoppcartList();
       } catch (e) {
-        alert(e);
+        this.$message.error(e);
       }
     },
 
@@ -188,7 +188,7 @@ export default {
         await this.$store.dispatch("deleteAllChecked");
         this.getShoppcartList();
       } catch (err) {
-        alert(err);
+        this.$message.error(err);
       }
     },
 
@@ -197,7 +197,7 @@ export default {
         await this.$store.dispatch("updateAllChecked", cur);
         this.getShoppcartList();
       } catch (error) {
-        alert(error);
+        this.$message.error(error);
       }
     },
   },

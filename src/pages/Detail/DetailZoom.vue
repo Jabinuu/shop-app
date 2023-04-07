@@ -28,7 +28,9 @@ export default {
 
   watch: {
     imgList(val) {
-      this.imgUrl = val[0].imgUrl;
+      if (val[0]) {
+        this.imgUrl = val[0].imgUrl;
+      }
     },
   },
   mounted() {

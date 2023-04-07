@@ -2,7 +2,7 @@
 import axios from 'axios';
 import nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
-
+import store from '@/store'
 const requests = axios.create({
   baseURL: '/api',    // 基础路径，当使用这个axios实例发送请求时，他的路径参数就不需要加/api了，直接写/api后面的即可
   timeout: 5000    // 请求超时的时间,到达这个时间还没有响应 那就是请求失败
@@ -16,7 +16,13 @@ requests.interceptors.request.use((config) => {
   // 如果请求路径中不能携带参数，那就用请求头来携带参数。比如添加购物车时求情url只有name和num参数，
   // 但是服务器需要用户id才能知道添加到谁的购物车，这时候url中无法再添加多余的参数，只好在请求头headers中添加了。
   // userTempId这个请求头信息要与后端同步
-  config.headers.userTempId = localStorage.getItem('uuid_token')
+  if (store.state.detail.uuid_token) {
+    config.headers.userTempId = store.state.detail.uuid_token
+  }
+  // 需要携带token给服务器
+  if (store.state.user.token) {
+    config.headers.token = store.state.user.token
+  }
   return config;
 })
 
