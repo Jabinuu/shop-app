@@ -1,6 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+  // 打包是否生成map文件。（map文件作用是定位压缩加密的代码的报错位置
+  productionSourceMap: false,
+
   // 关闭eslint
   // lintOnSave: false
 
